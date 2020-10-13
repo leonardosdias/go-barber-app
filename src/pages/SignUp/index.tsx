@@ -7,6 +7,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import { Image, ScrollView, View, KeyboardAvoidingView, Platform, TextInput, Alert } from "react-native";
 
@@ -52,6 +53,12 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
+        api.post('/users', data);
+
+        Alert.alert('Cadastro realizado.', 'Você já pode logar na plataforma.');
+
+        navigation.goBack();
+
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -63,7 +70,7 @@ const SignUp: React.FC = () => {
 
         Alert.alert('Erro no cadastro.', 'Ocorreu um erro ao fazer o cadastro, tente novamente');
       }
-    }, []);
+    }, [navigation]);
 
   return (
     <>
